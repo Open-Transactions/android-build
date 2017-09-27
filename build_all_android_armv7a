@@ -1,0 +1,37 @@
+#!/bin/bash
+
+source "${HOME}"/bin/android-armv7a
+
+set -e
+
+rm -rf "${HOME}"/{build,"${TOOLCHAIN_SYSROOT_LIB_DIR_OT}",toolchain/"${OT_NDK_TYPE}"}
+
+cd "${HOME}/bin"
+
+./create-toolchain-android-arm
+
+# no extra dependencies
+./build_secp256k1_android_armv7a
+
+# no extra dependencies
+./build_protobuf_android_armv7a
+
+# no extra dependencies
+./build_openssl_android_armv7a
+
+# no extra dependencies
+./build_sqlite3_android_armv7a
+
+# no extra dependencies
+./build_sodium_android_armv7a
+
+# depends on sodium
+./build_zeromq_android_armv7a
+
+# depends on zeromq
+./build_czmq_android_armv7a
+
+#########################################################################
+
+./build_opentxs-proto_android_armv7a
+./build_opentxs_android_armv7a

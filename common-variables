@@ -1,0 +1,84 @@
+#!/bin/bash
+
+export ANDROID_NDK_ROOT="/usr/local/share/ndk/${OT_NDK_TYPE}"
+export ANDROID_LEVEL_OT="21"
+export OPENSSL_ANDROID_API_OT="android-${ANDROID_LEVEL_OT}"
+export ANDROID_STANDALONE_TOOLCHAIN="${HOME}/toolchain/${OT_NDK_TYPE}/${OT_TARGET_ARCH}"
+export TOOLCHAIN_SYSROOT_OT="${ANDROID_STANDALONE_TOOLCHAIN}"/sysroot
+export TOOLCHAIN_USR_OT="${TOOLCHAIN_SYSROOT_OT}"/usr
+export TOOLCHAIN_SYSROOT_INCLUDE_DIR_OT="${TOOLCHAIN_USR_OT}"/include
+export TOOLCHAIN_SYSROOT_LIB_DIR_OT="${TOOLCHAIN_USR_OT}"/lib
+export SRC_DIR="${HOME}/src/${OT_NDK_TYPE}/${OT_TARGET_ARCH}"
+export BUILD_DIR="${HOME}/build/${OT_NDK_TYPE}/${OT_TARGET_ARCH}"
+export OT_MAKE_OPTS="-j8"
+export OT_MAKE_OPTS_FOR_BUGGY_COMPILERS="-j2"
+export FINAL_OUTPUT_DIR_OT="${HOME}/install/"
+export FINAL_OUTPUT_DIR_LIB_OT="${FINAL_OUTPUT_DIR_OT}/android_libs/${ABI}"
+export FINAL_OUTPUT_DIR_JAVA_OPENTXS_PROTO="${FINAL_OUTPUT_DIR_OT}/java/opentxs/proto"
+export FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT="${FINAL_OUTPUT_DIR_OT}/java/org/opentransactions/otapi"
+export BUILDING_ON_MACHINE_TYPE="linux-x86_64"
+export ALTERNATE_BUILDING_ON_MACHINE_TYPE="x86_64-linux"
+export ANDROID_TOOLCHAIN_CMAKE="${HOME}/cmake"
+export PROTOC_LOCATION_BUILD_MACHINE_OT="/usr/bin/protoc"
+export ANDROID_TOOLCHAIN_CMAKE_FILE="${ANDROID_TOOLCHAIN_CMAKE}/android.toolchain.cmake"
+
+export SYSROOT="${TOOLCHAIN_SYSROOT_OT}"
+export OUTPUT_DIR="${SYSROOT}/usr"
+
+clean_directories() {
+	local LOCAL_BUILD_DIR="${1}"
+	local LOCAL_SOURCE_DIR="${2}"
+	local ARCHIVE_FILE="${3}"
+
+	if [ -e "${LOCAL_BUILD_DIR}" ] ; then
+        	cd "${LOCAL_BUILD_DIR}" &&
+        	make uninstall
+       		rm -rf "${LOCAL_BUILD_DIR}"
+	fi
+
+	if [ -e "${LOCAL_SOURCE_DIR}" ] ; then
+	        rm -rf "${LOCAL_SOURCE_DIR}"
+	fi
+
+	if [ -e "${ARCHIVE_FILE}" ] ; then
+	        rm -rf "${ARCHIVE_FILE}"
+	fi
+}
+
+create_directories() {
+	local LOCAL_BUILD_DIR="${1}"
+	local LOCAL_SOURCE_DIR="${2}"
+	local FINAL_OUTPUT_DIR_LIB_OT="${3}"
+
+	if [ -n "${LOCAL_SOURCE_DIR}" ] ; then
+		mkdir -p "${LOCAL_SOURCE_DIR}"
+	fi
+
+	if [ -n "${LOCAL_BUILD_DIR}" ] ; then
+		mkdir -p "${LOCAL_BUILD_DIR}"
+	fi
+
+	if [ -n "${FINAL_OUTPUT_DIR_LIB_OT}" ] ; then
+		mkdir -p "${FINAL_OUTPUT_DIR_LIB_OT}"
+	fi
+}
+
+wget_source() {
+	local ARCHIVE_FILE="${1}"
+	local WGET_URL="${2}"
+	local LOCAL_SOURCE_DIR="${3}"
+
+	wget --output-document="${ARCHIVE_FILE}" "${WGET_URL}"
+	tar -xzvf "${ARCHIVE_FILE}" -C "${LOCAL_SOURCE_DIR}" --strip-components=1
+}
+
+git_clone_source() {
+	local VERSION="${1}"
+	local GIT_URL="${2}"
+	local LOCAL_SOURCE_DIR="${3}"
+
+	cd "${HOME}"
+	git clone --depth 1 --branch "${VERSION}" "${GIT_URL}" "${LOCAL_SOURCE_DIR}"
+	git -C "${LOCAL_SOURCE_DIR}" submodule init
+	git -C "${LOCAL_SOURCE_DIR}" submodule update
+}

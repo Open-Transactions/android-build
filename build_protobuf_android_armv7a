@@ -1,0 +1,39 @@
+#!/bin/bash
+
+source "${HOME}"/bin/android-armv7a
+
+export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_PROTOBUF_OT}"
+export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_PROTOBUF_OT}"
+export ARCHIVE_FILE="${SRC_DIR}/protobuf.tar.gz"
+export TOOLCHAIN_LIBRARY="libprotobuf-lite.so.9.0.1"
+export OUTPUT_LIBRARY="libprotobuf-lite_9.so"
+
+clean_directories "${LOCAL_BUILD_DIR}" "${LOCAL_SOURCE_DIR}" "${ARCHIVE_FILE}"
+
+set -e
+
+create_directories "${LOCAL_SOURCE_DIR}" "${LOCAL_BUILD_DIR}" "${FINAL_OUTPUT_DIR_LIB_OT}"
+
+wget_source "${ARCHIVE_FILE}" "${WGET_PROTOBUF_URL}" "${LOCAL_SOURCE_DIR}"
+
+cd "${LOCAL_BUILD_DIR}"
+
+"${LOCAL_SOURCE_DIR}"/configure \
+ --prefix="${ANDROID_STANDALONE_TOOLCHAIN}"/sysroot/usr \
+ --host="${ANDROID_EABI_OT}" \
+ --with-sysroot="${SYSROOT}" \
+ --disable-static \
+ --enable-shared \
+ --enable-cross-compile \
+ --with-pthreads \
+ --with-protoc=protoc \
+  CPPFLAGS="-I${CXXSTL}/include -I${CXXSTL}/libs/${ABI}/include -I${OUTPUT_DIR}/include" \
+  CFLAGS="-MMD -MP -MF -fPIC -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -Wl,--fix-cortex-a8 -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security" \
+  CXXFLAGS="-fPIC -frtti -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -Wl,--fix-cortex-a8 -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security" \
+  LDFLAGS="-march=armv7-a -Wl,--fix-cortex-a8 -L${OUTPUT_DIR}/lib" \
+  LIBS="-l${ANDROID_STL_LIB}"
+
+make "${OT_MAKE_OPTS}"
+make install
+cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY}"
+rpl -R -e ".so.9" "_9.so" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY}"

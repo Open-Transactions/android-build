@@ -1,0 +1,25 @@
+#!/bin/bash
+
+source "${HOME}"/bin/android-armv7a
+
+export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_SQLITE_OT}"
+export TOOLCHAIN_LIBRARY="libs/armeabi/libsqlite3.so"
+export OUTPUT_LIBRARY="libsqlite3.so"
+export PATH="${ANDROID_NDK_ROOT}/:${PATH}"
+
+clean_directories "${LOCAL_BUILD_DIR}" "" ""
+
+set -e
+
+create_directories "" "${LOCAL_BUILD_DIR}" "${FINAL_OUTPUT_DIR_LIB_OT}"
+
+git_clone_source "${SQLITE_BRANCH_OT}" "${GIT_SQLITE_URL}" "${LOCAL_BUILD_DIR}"
+sed -i "s/\(SQLITE_VERSION.*= \)[0-9]*/\1${SQLITE_VERSION_OT}/" "${LOCAL_BUILD_DIR}/Makefile"
+sed -i "s/\(SQLITE_YEAR.*= \)[0-9]*/\1${SQLITE_YEAR_OT}/" "${LOCAL_BUILD_DIR}/Makefile"
+
+cd "${LOCAL_BUILD_DIR}"
+make "${OT_MAKE_OPTS}"
+
+cp "${LOCAL_BUILD_DIR}"/build/sqlite3.h "${TOOLCHAIN_SYSROOT_INCLUDE_DIR_OT}"
+cp "${LOCAL_BUILD_DIR}/${TOOLCHAIN_LIBRARY}" "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}"
+cp "${LOCAL_BUILD_DIR}/${TOOLCHAIN_LIBRARY}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY}"

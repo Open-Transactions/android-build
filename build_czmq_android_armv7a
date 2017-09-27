@@ -1,0 +1,43 @@
+#!/bin/bash
+
+source "${HOME}"/bin/android-armv7a
+
+export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_CZMQ_OT}"
+export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_CZMQ_OT}"
+export TOOLCHAIN_LIBRARY="libczmq.so"
+export OUTPUT_LIBRARY="libczmq.so"
+
+export HOST="${ARCH_HOST_DUET_OT}"
+export BUILD_MACHINE="${ALTERNATE_BUILDING_ON_MACHINE_TYPE}"
+
+clean_directories "${LOCAL_BUILD_DIR}" "${LOCAL_SOURCE_DIR}" ""
+
+set -e
+
+create_directories "${LOCAL_SOURCE_DIR}" "${LOCAL_BUILD_DIR}" "${FINAL_OUTPUT_DIR_LIB_OT}"
+
+git_clone_source "${CZMQ_VERSION_OT}" "${GIT_CZMQ_URL}" "${LOCAL_SOURCE_DIR}"
+sed -i "s~uuid/uuid\.h~linux/uuid\.h~" "${LOCAL_SOURCE_DIR}"/configure.ac
+sed -i "s~uuid/uuid\.h~linux/uuid\.h~" "${LOCAL_SOURCE_DIR}"/include/czmq_prelude.h
+
+cd "${LOCAL_SOURCE_DIR}"
+./autogen.sh
+
+cd "${LOCAL_BUILD_DIR}"
+
+"${LOCAL_SOURCE_DIR}"/configure \
+ --prefix="${OUTPUT_DIR}" \
+ --host="${ANDROID_EABI_OT}" \
+ --with-docs=no \
+ --disable-static \
+ --enable-shared \
+ --disable-zmakecert \
+  CPPFLAGS="-I${CXXSTL}/include -I${CXXSTL}/libs/${ABI}/include -I${OUTPUT_DIR}/include" \
+  CFLAGS="-fPIC -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -Wl,--fix-cortex-a8 -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security" \
+  CXXFLAGS="-fPIC -frtti -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -Wl,--fix-cortex-a8 -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security" \
+  LDFLAGS="-march=armv7-a -Wl,--fix-cortex-a8 -L${OUTPUT_DIR}/lib" \
+  LIBS="-l${ANDROID_STL_LIB}"
+make "${OT_MAKE_OPTS}"
+make install
+cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY}"
+

@@ -1,0 +1,73 @@
+#!/bin/bash
+
+source "${HOME}"/bin/android-armv7a
+
+export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_OPENTXS_OT}"
+export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_OPENTXS_OT}"
+export TOOLCHAIN_LIBRARY_MAIN="libopentxs.so"
+export TOOLCHAIN_LIBRARY_SWIG="libJOpentxs.so"
+export OUTPUT_LIBRARY_MAIN="libopentxs.so"
+export OUTPUT_LIBRARY_SWIG="libJOpentxs.so"
+
+export ANDROID_TOOLCHAIN_FILE="${ANDROID_TOOLCHAIN_CMAKE_FILE}"
+export NDK_HOME="${ANDROID_NDK_ROOT}"
+export TOOLCHAIN_NAME="${ANDROID_EABI_OT}"-"${ANDROID_GCC_VERSION_OT}"
+export HOST_SYSTEM_NAME="${BUILDING_ON_MACHINE_TYPE}"
+
+clean_directories "${LOCAL_BUILD_DIR}" "${LOCAL_SOURCE_DIR}" ""
+
+set -e
+
+create_directories "${LOCAL_SOURCE_DIR}" "${LOCAL_BUILD_DIR}" "${FINAL_OUTPUT_DIR_LIB_OT}"
+
+git_clone_source "${OPENTXS_VERSION_OT}" "${GIT_OPENTXS_URL}" "${LOCAL_SOURCE_DIR}"
+
+# A hack. We're overwriting the standalone toolchain's protoc
+# with the system protoc (so it can run during cross-compile.)
+# It will be better to just find anyplace we actually use protoc
+# and give it the path there, rather than overwriting the standalone
+# toolchain's copy. It may not be so simple however, and we'll figure
+# it out later. This works for now.
+cp "${PROTOC_LOCATION_BUILD_MACHINE_OT}" "${ANDROID_STANDALONE_TOOLCHAIN}/sysroot/usr/bin/protoc"
+
+cd "${LOCAL_BUILD_DIR}"
+
+cmake \
+ -DUSE_CCACHE=no \
+ -DANDROID_STL="${ANDROID_STL_LIB}" \
+ -DANDROID_STL_FORCE_FEATURES=OFF \
+ -DANDROID_STANDALONE_TOOLCHAIN="${ANDROID_STANDALONE_TOOLCHAIN}" \
+ -DCMAKE_TOOLCHAIN_FILE="${ANDROID_TOOLCHAIN_FILE}" \
+ -DCMAKE_SYSTEM_PREFIX_PATH="${TOOLCHAIN_SYSROOT_OT}" \
+ -DCMAKE_INSTALL_PREFIX="${TOOLCHAIN_USR_OT}" \
+ -DOT_STRICT=OFF \
+ -DJAVA=ON \
+ "${LOCAL_SOURCE_DIR}"
+
+# TODO figure out why we need to run this twice
+
+cmake \
+ -DUSE_CCACHE=no \
+ -DANDROID_STL="${ANDROID_STL_LIB}" \
+ -DANDROID_STL_FORCE_FEATURES=OFF \
+ -DANDROID_STANDALONE_TOOLCHAIN="${ANDROID_STANDALONE_TOOLCHAIN}" \
+ -DCMAKE_TOOLCHAIN_FILE="${ANDROID_TOOLCHAIN_FILE}" \
+ -DCMAKE_SYSTEM_PREFIX_PATH="${TOOLCHAIN_SYSROOT_OT}" \
+ -DCMAKE_INSTALL_PREFIX="${TOOLCHAIN_USR_OT}" \
+ -DOT_STRICT=OFF \
+ -DJAVA=ON \
+ "${LOCAL_SOURCE_DIR}"
+
+sed -i "s/soname, /soname,libJOpentxs.so /" "${LOCAL_BUILD_DIR}"/wrappers/java/CMakeFiles/JOpentxs.dir/link.txt
+
+make "${OT_MAKE_OPTS_FOR_BUGGY_COMPILERS}"
+make install
+
+mkdir -p "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT}"
+#cp "${ANDROID_STANDALONE_TOOLCHAIN}/sysroot/usr/share/opentxs-proto/java/opentxs/proto"/*.java "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT}/"
+
+cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_MAIN}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY_MAIN}"
+cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_SWIG}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY_SWIG}"
+rpl -R -e ".so.9" "_9.so" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY_MAIN}"
+rpl -R -e ".so.1.0.0" "_1_0_0.so" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY_MAIN}"
+
