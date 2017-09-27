@@ -4,17 +4,19 @@ source "${HOME}"/bin/android-armv7a
 
 export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_SODIUM_OT}"
 export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_SODIUM_OT}"
-export ARCHIVE_FILE="${SRC_DIR}/sodium.tar.gz"
 export TOOLCHAIN_LIBRARY="libsodium.so"
 export OUTPUT_LIBRARY="libsodium.so"
 
-clean_directories "${LOCAL_BUILD_DIR}" "${LOCAL_SOURCE_DIR}" "${ARCHIVE_FILE}"
+clean_directories "${LOCAL_BUILD_DIR}" "${LOCAL_SOURCE_DIR}" ""
 
 set -e
 
 create_directories "${LOCAL_SOURCE_DIR}" "${LOCAL_BUILD_DIR}" "${FINAL_OUTPUT_DIR_LIB_OT}"
 
-wget_source "${ARCHIVE_FILE}" "${WGET_SODIUM_URL}" "${LOCAL_SOURCE_DIR}"
+git_clone_source "${SODIUM_VERSION_OT}" "${GIT_SODIUM_URL}" "${LOCAL_SOURCE_DIR}"
+
+cd "${LOCAL_SOURCE_DIR}"
+./autogen.sh
 
 cd "${LOCAL_BUILD_DIR}"
 
