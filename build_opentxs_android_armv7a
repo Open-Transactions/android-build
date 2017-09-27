@@ -28,7 +28,7 @@ git_clone_source "${OPENTXS_VERSION_OT}" "${GIT_OPENTXS_URL}" "${LOCAL_SOURCE_DI
 # and give it the path there, rather than overwriting the standalone
 # toolchain's copy. It may not be so simple however, and we'll figure
 # it out later. This works for now.
-cp "${PROTOC_LOCATION_BUILD_MACHINE_OT}" "${ANDROID_STANDALONE_TOOLCHAIN}/sysroot/usr/bin/protoc"
+cp "${PROTOC_LOCATION_BUILD_MACHINE_OT}" "${TOOLCHAIN_USR_OT}/bin/protoc"
 
 cd "${LOCAL_BUILD_DIR}"
 
@@ -64,7 +64,7 @@ make "${OT_MAKE_OPTS_FOR_BUGGY_COMPILERS}"
 make install
 
 mkdir -p "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT}"
-#cp "${ANDROID_STANDALONE_TOOLCHAIN}/sysroot/usr/share/opentxs-proto/java/opentxs/proto"/*.java "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT}/"
+cp "${TOOLCHAIN_USR_OT}/share/opentxs-proto/java/opentxs/proto"/*.java "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT}/"
 
 cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_MAIN}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY_MAIN}"
 cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_SWIG}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY_SWIG}"

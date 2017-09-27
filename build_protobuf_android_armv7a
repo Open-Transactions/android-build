@@ -19,7 +19,7 @@ wget_source "${ARCHIVE_FILE}" "${WGET_PROTOBUF_URL}" "${LOCAL_SOURCE_DIR}"
 cd "${LOCAL_BUILD_DIR}"
 
 "${LOCAL_SOURCE_DIR}"/configure \
- --prefix="${ANDROID_STANDALONE_TOOLCHAIN}"/sysroot/usr \
+ --prefix="${TOOLCHAIN_USR_OT}" \
  --host="${ANDROID_EABI_OT}" \
  --with-sysroot="${SYSROOT}" \
  --disable-static \

@@ -26,7 +26,7 @@ git_clone_source "${OPENTXS_PROTO_VERSION_OT}" "${GIT_OPENTXS_PROTO_URL}" "${LOC
 # and give it the path there, rather than overwriting the standalone
 # toolchain's copy. It may not be so simple however, and we'll figure
 # it out later. This works for now.
-cp "${PROTOC_LOCATION_BUILD_MACHINE_OT}" "${ANDROID_STANDALONE_TOOLCHAIN}/sysroot/usr/bin/protoc"
+cp "${PROTOC_LOCATION_BUILD_MACHINE_OT}" "${TOOLCHAIN_USR_OT}/bin/protoc"
 
 cd "${LOCAL_BUILD_DIR}"
 
@@ -61,7 +61,7 @@ cp -R "${LOCAL_SOURCE_DIR}"/include/"${FOLDER_OPENTXS_PROTO_OT}" "${TOOLCHAIN_SY
 cp -R "${LOCAL_BUILD_DIR}"/src/"${FOLDER_OPENTXS_PROTO_OT}"/*.pb.h "${TOOLCHAIN_SYSROOT_INCLUDE_DIR_OT}/${FOLDER_OPENTXS_PROTO_OT}/"
 
 mkdir -p "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_PROTO}"
-cp "${ANDROID_STANDALONE_TOOLCHAIN}/sysroot/usr/share/opentxs-proto/java/opentxs/proto"/*.java "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_PROTO}/"
+cp "${TOOLCHAIN_USR_OT}/share/opentxs-proto/java/opentxs/proto"/*.java "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_PROTO}/"
 
 cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY}"
 rpl -R -e ".so.9" "_9.so" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY}"
