@@ -32,7 +32,7 @@ cd "${LOCAL_BUILD_DIR}"
  --disable-static \
  --enable-shared \
  --disable-zmakecert \
-  CPPFLAGS="-I${CXXSTL}/include -I${CXXSTL}/libs/${ABI}/include -I${OUTPUT_DIR}/include" \
+  CPPFLAGS="-I${CXXSTL_INCLUDE} -I${OUTPUT_DIR}/include" \
   CFLAGS="-fPIC -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -Wl,--fix-cortex-a8 -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security" \
   CXXFLAGS="-fPIC -frtti -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -Wl,--fix-cortex-a8 -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security" \
   LDFLAGS="-march=armv7-a -Wl,--fix-cortex-a8 -L${OUTPUT_DIR}/lib" \
