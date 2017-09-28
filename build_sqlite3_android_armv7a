@@ -3,24 +3,28 @@
 source "${HOME}"/bin/android-armv7a
 
 export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_SQLITE_OT}"
-export TOOLCHAIN_LIBRARY="libs/armeabi/libsqlite3.so"
+export ARCHIVE_FILE="${SRC_DIR}/sqlite3.zip"
+export TOOLCHAIN_LIBRARY="libsqlite3.so"
 export OUTPUT_LIBRARY="libsqlite3.so"
-export PATH="${ANDROID_NDK_ROOT}/:${PATH}"
 
-clean_directories "${LOCAL_BUILD_DIR}" "" ""
+clean_directories "${LOCAL_BUILD_DIR}" "" "${ARCHIVE_FILE}"
 
 set -e
 
 create_directories "" "${LOCAL_BUILD_DIR}" "${FINAL_OUTPUT_DIR_LIB_OT}"
+wget --output-document="${ARCHIVE_FILE}" "${WGET_SQLITE_URL}"
+cd "${BUILD_DIR}"
+cp "${ARCHIVE_FILE}" .
+unzip -oq sqlite3.zip
+rm -rf "${LOCAL_BUILD_DIR}"
+mv "sqlite-amalgamation-${SQLITE_VERSION_OT}" "${LOCAL_BUILD_DIR}"
 
-git_clone_source "${SQLITE_BRANCH_OT}" "${GIT_SQLITE_URL}" "${LOCAL_BUILD_DIR}"
-sed -i "s/\(SQLITE_VERSION.*= \)[0-9]*/\1${SQLITE_VERSION_OT}/" "${LOCAL_BUILD_DIR}/Makefile"
-sed -i "s/\(SQLITE_YEAR.*= \)[0-9]*/\1${SQLITE_YEAR_OT}/" "${LOCAL_BUILD_DIR}/Makefile"
-sed -i "s~ndk-build~APP_PLATFORM=\"android-${ANDROID_LEVEL_OT}\" ndk-build~" "${LOCAL_BUILD_DIR}/Makefile"
+export CFLAGS="-O3 -MP -MF -fPIC -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -fomit-frame-pointer -fno-strict-aliasing -DANDROID -Wformat -Werror=format-security"
+export LDFLAGS="-march=armv7-a -L${CXXSTL_LIB} -l${ANDROID_STL_LIB}"
 
-cd "${LOCAL_BUILD_DIR}"
-make "${OT_MAKE_OPTS}"
+"${CMAKE_C_COMPILER}" ${CFLAGS} "-I${CXXSTL_INCLUDE}" --sysroot="${SYSROOT}" -c "${LOCAL_BUILD_DIR}/sqlite3.c" -o "${LOCAL_BUILD_DIR}/sqlite3.o"
+"${CMAKE_C_COMPILER}" ${LDFLAGS} -shared -o "${LOCAL_BUILD_DIR}/${TOOLCHAIN_LIBRARY}" "${LOCAL_BUILD_DIR}/sqlite3.o"
 
-cp "${LOCAL_BUILD_DIR}"/build/sqlite3.h "${TOOLCHAIN_SYSROOT_INCLUDE_DIR_OT}"
+cp "${LOCAL_BUILD_DIR}"/sqlite3.h "${TOOLCHAIN_SYSROOT_INCLUDE_DIR_OT}"
 cp "${LOCAL_BUILD_DIR}/${TOOLCHAIN_LIBRARY}" "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}"
 cp "${LOCAL_BUILD_DIR}/${TOOLCHAIN_LIBRARY}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY}"

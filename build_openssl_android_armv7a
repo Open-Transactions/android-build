@@ -17,14 +17,9 @@ export _ANDROID_EABI="${ANDROID_EABI_OT}-${ANDROID_GCC_VERSION_OT}"
 export _ANDROID_ARCH="${ANDROID_ARCH_OT}"
 export _ANDROID_API="${OPENSSL_ANDROID_API_OT}"
 export _HOST="${BUILDING_ON_MACHINE_TYPE}"
+export ANDROID_TOOLCHAIN="${ANDROID_STANDALONE_TOOLCHAIN}/bin"
 export OPENSSLDIR="${LOCAL_BUILD_DIR}"
 export OPENSSL_LIBDIR_OT="${OPENSSLDIR}"/lib
-
-ANDROID_TOOLCHAIN=""
-
-if [ -d "${ANDROID_NDK_ROOT}/toolchains/${_ANDROID_EABI}/prebuilt/${_HOST}/bin" ]; then
-	ANDROID_TOOLCHAIN="${ANDROID_NDK_ROOT}/toolchains/${_ANDROID_EABI}/prebuilt/${_HOST}/bin"
-fi
 
 case $_ANDROID_ARCH in
 	arch-arm)
@@ -38,11 +33,6 @@ case $_ANDROID_ARCH in
 	  exit 1
 	  ;;
 esac
-
-if [ ! -z "${ANDROID_TOOLCHAIN}" ]; then
-	export ANDROID_TOOLCHAIN="${ANDROID_TOOLCHAIN}"
-	export PATH="${ANDROID_TOOLCHAIN}":"${PATH}"
-fi
 
 # Most of these should be OK (MACHINE, SYSTEM, ARCH). RELEASE is ignored.
 export MACHINE=armv7
@@ -66,9 +56,6 @@ export SYSROOT="${ANDROID_SYSROOT}"
 export NDK_SYSROOT="${ANDROID_SYSROOT}"
 export ANDROID_NDK_SYSROOT="${ANDROID_SYSROOT}"
 export ANDROID_API="${_ANDROID_API}"
-
-# CROSS_COMPILE and ANDROID_DEV are DFW (Don't Fiddle With). Its used by OpenSSL build system.
-# export CROSS_COMPILE="arm-linux-androideabi-"
 export ANDROID_DEV="${ANDROID_NDK_ROOT}/platforms/${_ANDROID_API}/${_ANDROID_ARCH}/usr"
 export HOSTCC=clang
 

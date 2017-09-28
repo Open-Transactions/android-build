@@ -4,7 +4,7 @@ source "${HOME}"/bin/android-armv7a
 
 set -e
 
-rm -rf "${SRC_DIR}" "${BUILD_DIR}" "${ANDROID_STANDALONE_TOOLCHAIN}"
+rm -rf "${SRC_DIR}" "${BUILD_DIR}" "${ANDROID_STANDALONE_TOOLCHAIN}" "${FINAL_OUTPUT_DIR_LIB_OT}"
 
 cd "${HOME}/bin"
 

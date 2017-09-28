@@ -10,4 +10,4 @@ fi
 
 mkdir -p "${HOME}/toolchain"
 cd "${ANDROID_NDK_ROOT}"
-build/tools/make_standalone_toolchain.py --api "${ANDROID_LEVEL_OT}" --stl "${ANDROID_STL}" --arch "${ANDROID_ARCH_NDK_OT}" --install-dir "${ANDROID_STANDALONE_TOOLCHAIN}"
+build/tools/make_standalone_toolchain.py --api "${ANDROID_LEVEL_OT}" --stl "${ANDROID_STL}" --arch "${ANDROID_ARCH_NDK_OT}" --install-dir "${ANDROID_STANDALONE_TOOLCHAIN}" --unified-headers

@@ -12,9 +12,8 @@ JAVA_FILES="${STASH_WALLET}/app/src/main/java/"
 git -C "${STASH_WALLET}" remote update -p
 git -C "${STASH_WALLET}" checkout master
 git -C "${STASH_WALLET}" reset --hard stash/master
-rsync -avX "${FINAL_OUTPUT_DIR_OT}/android_libs/" "${JNILIBS}"
+rsync -avX --delete "${FINAL_OUTPUT_DIR_OT}/android_libs/" "${JNILIBS}"
 rsync -avX "${FINAL_OUTPUT_DIR_OT}/java/" "${JAVA_FILES}"
-#git -C "${STASH_WALLET}" checkout app/src/main/jniLibs/armeabi-v7a/libsqlite3.so
 git -C "${STASH_WALLET}" add .
 git -C "${STASH_WALLET}" commit -a -S -m "Update for opentxs-${OT_VERSION}"
 git -C "${STASH_WALLET}" push --force build master
