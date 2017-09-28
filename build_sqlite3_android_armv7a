@@ -16,6 +16,7 @@ create_directories "" "${LOCAL_BUILD_DIR}" "${FINAL_OUTPUT_DIR_LIB_OT}"
 git_clone_source "${SQLITE_BRANCH_OT}" "${GIT_SQLITE_URL}" "${LOCAL_BUILD_DIR}"
 sed -i "s/\(SQLITE_VERSION.*= \)[0-9]*/\1${SQLITE_VERSION_OT}/" "${LOCAL_BUILD_DIR}/Makefile"
 sed -i "s/\(SQLITE_YEAR.*= \)[0-9]*/\1${SQLITE_YEAR_OT}/" "${LOCAL_BUILD_DIR}/Makefile"
+sed -i "s~ndk-build~APP_PLATFORM=\"android-${ANDROID_LEVEL_OT}\" ndk-build~" "${LOCAL_BUILD_DIR}/Makefile"
 
 cd "${LOCAL_BUILD_DIR}"
 make "${OT_MAKE_OPTS}"

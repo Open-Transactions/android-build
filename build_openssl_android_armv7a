@@ -28,10 +28,10 @@ fi
 
 case $_ANDROID_ARCH in
 	arch-arm)
-      ANDROID_TOOLS="arm-linux-androideabi-gcc arm-linux-androideabi-ranlib arm-linux-androideabi-ld"
+      ANDROID_TOOLS="arm-linux-androideabi-clang arm-linux-androideabi-ranlib arm-linux-androideabi-ld"
 	  ;;
 	arch-x86)
-      ANDROID_TOOLS="i686-linux-android-gcc i686-linux-android-ranlib i686-linux-android-ld"
+      ANDROID_TOOLS="i686-linux-android-clang i686-linux-android-ranlib i686-linux-android-ld"
 	  ;;
 	*)
 	  echo "ERROR ERROR ERROR"
@@ -70,7 +70,7 @@ export ANDROID_API="${_ANDROID_API}"
 # CROSS_COMPILE and ANDROID_DEV are DFW (Don't Fiddle With). Its used by OpenSSL build system.
 # export CROSS_COMPILE="arm-linux-androideabi-"
 export ANDROID_DEV="${ANDROID_NDK_ROOT}/platforms/${_ANDROID_API}/${_ANDROID_ARCH}/usr"
-export HOSTCC=gcc
+export HOSTCC=clang
 
 VERBOSE=1
 if [ ! -z "$VERBOSE" ] && [ "$VERBOSE" != "0" ]; then
@@ -94,12 +94,14 @@ create_directories "${LOCAL_SOURCE_DIR}" "${LOCAL_BUILD_DIR}" "${FINAL_OUTPUT_DI
 
 wget_source "${ARCHIVE_FILE}" "${WGET_OPENSSL_URL}" "${LOCAL_SOURCE_DIR}"
 
+sed -i "s/-mandroid //" "${LOCAL_SOURCE_DIR}"/Configure
+
 mkdir -p "${OPENSSL_LIBDIR_OT}"
 cd "${LOCAL_SOURCE_DIR}"
-./config shared -no-ssl3 -no-comp -no-hw -no-engine --openssldir="${OPENSSLDIR}"
+./config shared -no-asm -no-ssl3 -no-comp -no-hw -no-engine --openssldir="${OPENSSLDIR}"
 make depend
-make "${OT_MAKE_OPTS}" CC="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-gcc RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib all
-make CC="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-gcc RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib install
+make "${OT_MAKE_OPTS}" CC="${CC}" RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib all
+make CC="${CC}" RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib install
 
 if [ -e "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_CRYPTO}" ] ; then
 	rm -rf "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_CRYPTO}"

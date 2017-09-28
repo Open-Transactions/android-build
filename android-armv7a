@@ -5,12 +5,12 @@ export OT_NDK_TYPE="android-ndk-r14b"
 export ANDROID_EABI_OT="arm-linux-androideabi"
 export ANDROID_GCC_VERSION_OT="4.9"
 export ABI=armeabi-v7a
-export ANDROID_STL=gnustl
-export ANDROID_STL_LIB="${ANDROID_STL}"_shared
+export ANDROID_STL=libc++
+export ANDROID_STL_LIB="c++_shared"
 export ARCH_HOST_DUET_OT="arm-linux"
 export ANDROID_ARCH_NDK_OT="arm"
 export ANDROID_ARCH_OT=arch-arm
 
 source ~/bin/common-variables
-source ~/bin/paths_android
+source ~/bin/paths_android_clang
 source ~/bin/versions

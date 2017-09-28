@@ -36,9 +36,9 @@ cd "${LOCAL_BUILD_DIR}"
  --without-documentation \
  --with-libsodium \
   CPPFLAGS="-I${CXXSTL_INCLUDE} -I${OUTPUT_DIR}/include" \
-  CFLAGS="-MMD -MP -MF -fPIC -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -Wl,--fix-cortex-a8 -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security" \
-  CXXFLAGS="-fPIC -frtti -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -Wl,--fix-cortex-a8 -fomit-frame-pointer -fno-strict-aliasing -finline-limit=64 -DANDROID -Wa,--noexecstack -Wformat -Werror=format-security" \
-  LDFLAGS="-march=armv7-a -Wl,--fix-cortex-a8 -L${OUTPUT_DIR}/lib" \
+  CFLAGS="-MP -MF -fPIC -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -fomit-frame-pointer -fno-strict-aliasing -DANDROID -Wformat -Werror=format-security" \
+  CXXFLAGS="-fPIC -frtti -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -fomit-frame-pointer -fno-strict-aliasing -DANDROID -Wformat -Werror=format-security" \
+  LDFLAGS="-march=armv7-a -L${CXXSTL_LIB} -L${OUTPUT_DIR}/lib" \
   LIBS="-l${ANDROID_STL_LIB}"
 
 make "${OT_MAKE_OPTS}"
