@@ -21,7 +21,9 @@ export ALTERNATE_BUILDING_ON_MACHINE_TYPE="x86_64-linux"
 export ANDROID_TOOLCHAIN_CMAKE="${HOME}/cmake"
 export PROTOC_LOCATION_BUILD_MACHINE_OT="/usr/bin/protoc"
 export ANDROID_TOOLCHAIN_CMAKE_FILE="${ANDROID_TOOLCHAIN_CMAKE}/android.toolchain.cmake"
-
+export CFLAGS_COMMON="-MP -MF -fPIC -fexceptions -ffunction-sections -funwind-tables -fstack-protector -fomit-frame-pointer -fno-strict-aliasing -DANDROID -Wformat -Werror=format-security"
+export CXXFLAGS_COMMON="-fPIC -frtti -fexceptions -ffunction-sections -funwind-tables -fstack-protector -fomit-frame-pointer -fno-strict-aliasing -DANDROID -Wformat -Werror=format-security"
+export LDFLAGS_COMMON=""
 export SYSROOT="${TOOLCHAIN_SYSROOT_OT}"
 export OUTPUT_DIR="${SYSROOT}/usr"
 

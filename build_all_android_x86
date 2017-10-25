@@ -1,0 +1,37 @@
+#!/bin/bash
+
+source "${HOME}"/bin/android-x86
+
+set -e
+
+rm -rf "${SRC_DIR}" "${BUILD_DIR}" "${ANDROID_STANDALONE_TOOLCHAIN}" "${FINAL_OUTPUT_DIR_LIB_OT}"
+
+cd "${HOME}/bin"
+
+./create-toolchain-android-x86
+
+# no extra dependencies
+./build_secp256k1_android_x86
+
+# no extra dependencies
+./build_protobuf_android_x86
+
+# no extra dependencies
+./build_openssl_android_x86
+
+# no extra dependencies
+./build_sqlite3_android_x86
+
+# no extra dependencies
+./build_sodium_android_x86
+
+# depends on sodium
+./build_zeromq_android_x86
+
+# depends on zeromq
+./build_czmq_android_x86
+
+#########################################################################
+
+./build_opentxs-proto_android_x86
+./build_opentxs_android_x86

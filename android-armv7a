@@ -11,6 +11,14 @@ export ARCH_HOST_DUET_OT="arm-linux"
 export ANDROID_ARCH_NDK_OT="arm"
 export ANDROID_ARCH_OT=arch-arm
 
+export CFLAGS_ARM7="-march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb"
+export CXXFLAGS_ARM7="-march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb"
+export LDFLAGS_ARM7="-march=armv7-a"
+
 source ~/bin/common-variables
 source ~/bin/paths_android
 source ~/bin/versions
+
+export CFLAGS_OT="${CFLAGS_ARM7} ${CFLAGS_COMMON}"
+export CXXFLAGS_OT="${CXXFLAGS_ARM7} ${CXXFLAGS_COMMON}"
+export LDFLAGS_OT="${LDFLAGS_ARM7} ${LDFLAGS_COMMON}"
