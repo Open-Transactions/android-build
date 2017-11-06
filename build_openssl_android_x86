@@ -52,8 +52,8 @@ if [ "${_ANDROID_ARCH}" == "arch-x86" ]; then
 	export ARCH=x86
 	export CROSS_COMPILE="i686-linux-android-"
 fi
-if [ "${_ANDROID_ARCH}" == "arch-x86_64" ]; then
-	export MACHINE=x86_64
+if ["${_ANDROID_ARCH}" == "arch-x86_64" ]; then
+	export MACHINE=x86-64
 	export RELEASE=2.6.37
 	export SYSTEM=android
 	export ARCH=x86_64
@@ -94,11 +94,13 @@ wget_source "${ARCHIVE_FILE}" "${WGET_OPENSSL_URL}" "${LOCAL_SOURCE_DIR}"
 sed -i "s/-mandroid //" "${LOCAL_SOURCE_DIR}"/Configure
 mkdir -p "${OPENSSL_LIBDIR_OT}"
 cd "${LOCAL_SOURCE_DIR}"
+
 ./config shared -no-asm -no-ssl3 -no-comp -no-hw -no-engine --openssldir="${OPENSSLDIR}"
 
 make depend
-make "${OT_MAKE_OPTS}" CC="${CC}" RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib all
-make LDFLAGS="${LDFLAGS}" CC="${CC}" RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib install
+
+make "${OT_MAKE_OPTS}" CC="${CC}" CFLAG="${CFLAGS_OT}" RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib all
+make CC="${CC}" CFLAG="${CFLAGS_OT}" RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib install
 
 if [ -e "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_CRYPTO}" ] ; then
 	rm -rf "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_CRYPTO}"

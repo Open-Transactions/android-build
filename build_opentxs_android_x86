@@ -27,8 +27,17 @@ sed -i "s/-Wno-useless-cast/-Wuseless-cast/" "${LOCAL_SOURCE_DIR}"/CMakeLists.tx
 sed -i "s/-Wunused-macros/-Wunused-macros/" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
 sed -i "s/-Wabsolute-value/-Wno-absolute-value/" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
 sed -i "s/-Werror//" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
+if [ ${ABI} == "x86" ]
+    then
+        sed -i "s/-std=c++1z/-std=c++14/" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
+fi
 sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_DIR}"/include/opentxs/core/stdafx.hpp
 sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_DIR}"/include/opentxs/client/commands/CmdBase.hpp
+if [ ${ABI} == "x86_64" ]
+    then 
+        sed -i "s/timegm64/timegm/" "${LOCAL_SOURCE_DIR}"/src/core/util/StringUtils.cpp
+        sed -i "s/time64.h/time.h/" "${LOCAL_SOURCE_DIR}"/src/core/util/StringUtils.cpp
+fi
 sed -i "s~using ::signbit;~//using ::signbit;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
 sed -i "s~using ::fpclassify;~//using ::fpclassify;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
 sed -i "s~using ::isfinite;~//using ::isfinite;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
@@ -60,7 +69,7 @@ cmake \
  -DCXXSTL_LIB="${CXXSTL_LIB}" \
  -DCMAKE_C_COMPILER="${CMAKE_C_COMPILER}" \
  -DCMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER}" \
- -DCMAKE_CXX_FLAGS="" \
+ -DCMAKE_CXX_FLAGS="${CXXFLAGS_OT}" \
  -DCMAKE_CXX_LINK_FLAGS="-L${CXXSTL_LIB} -l${STDLIB_SO_OT}" \
  -DUSE_CCACHE=no \
  -DANDROID_STL=none \
@@ -81,7 +90,7 @@ cmake \
  -DCXXSTL_LIB="${CXXSTL_LIB}" \
  -DCMAKE_C_COMPILER="${CMAKE_C_COMPILER}" \
  -DCMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER}" \
- -DCMAKE_CXX_FLAGS="" \
+ -DCMAKE_CXX_FLAGS="${CXXFLAGS_OT}" \
  -DCMAKE_CXX_LINK_FLAGS="-L${CXXSTL_LIB} -l${STDLIB_SO_OT}" \
  -DUSE_CCACHE=no \
  -DANDROID_STL=none \
@@ -100,8 +109,8 @@ cmake \
 
 sed -i "s/soname, /soname,libJOpentxs.so /" "${LOCAL_BUILD_DIR}"/wrappers/java/CMakeFiles/JOpentxs.dir/link.txt
 
-make "${OT_MAKE_OPTS_FOR_BUGGY_COMPILERS}"
-make install
+make CXXFLAGS="${CXXFLAGS_OT}" "${OT_MAKE_OPTS_FOR_BUGGY_COMPILERS}" -j1
+make LDFLAGS="${LDFLAGS_OT}" install
 
 mkdir -p "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT}"
 cp "${LOCAL_BUILD_DIR}/wrappers/java/otx_java"/*.java "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT}/"
