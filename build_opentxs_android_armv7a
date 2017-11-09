@@ -27,7 +27,7 @@ sed -i "s/-Wno-useless-cast/-Wuseless-cast/" "${LOCAL_SOURCE_DIR}"/CMakeLists.tx
 sed -i "s/-Wunused-macros/-Wunused-macros/" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
 sed -i "s/-Wabsolute-value/-Wno-absolute-value/" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
 sed -i "s/-Werror//" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
-sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_DIR}"/include/opentxs/core/stdafx.hpp
+sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_DIR}"/include/opentxs/stdafx.hpp
 sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_DIR}"/include/opentxs/client/commands/CmdBase.hpp
 sed -i "s~using ::signbit;~//using ::signbit;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
 sed -i "s~using ::fpclassify;~//using ::fpclassify;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath

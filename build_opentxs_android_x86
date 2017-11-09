@@ -31,7 +31,7 @@ if [ ${ABI} == "x86" ]
     then
         sed -i "s/-std=c++1z/-std=c++14/" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
 fi
-sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_DIR}"/include/opentxs/core/stdafx.hpp
+sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_DIR}"/include/opentxs/stdafx.hpp
 sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_DIR}"/include/opentxs/client/commands/CmdBase.hpp
 if [ ${ABI} == "x86_64" ]
     then 
