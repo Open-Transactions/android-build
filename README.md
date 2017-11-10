@@ -6,9 +6,6 @@ These scripts build Open-Transactions and all its dependencies using the Android
 
 These scripts must be installed as ~/bin for the user which will perform the build.
 
-    rm -r ~/cmake
-    git clone ssh://git@git.cjdns.stashcrypto.net/ot/android-cmake ~/cmake
-
     rm -r ~/bin
     git clone ssh://git@git.cjdns.stashcrypto.net/ot/android-build ~/bin
 
