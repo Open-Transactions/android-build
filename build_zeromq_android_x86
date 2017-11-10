@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "${HOME}"/bin/android-armv7a
+source "${HOME}"/bin/android-x86
 
 export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_ZMQ_OT}"
 export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_ZMQ_OT}"

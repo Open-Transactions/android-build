@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "${HOME}"/bin/android-armv7a
+source "${HOME}"/bin/android-x86
 
 export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_SQLITE_OT}"
 export ARCHIVE_FILE="${SRC_DIR}/sqlite3.zip"

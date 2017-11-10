@@ -33,9 +33,9 @@ cd "${LOCAL_BUILD_DIR}"
  --enable-shared \
  --disable-zmakecert \
   CPPFLAGS="-I${CXXSTL_INCLUDE} -I${OUTPUT_DIR}/include" \
-  CFLAGS="-fPIC -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -fomit-frame-pointer -fno-strict-aliasing -DANDROID -Wformat -Werror=format-security" \
-  CXXFLAGS="-fPIC -frtti -fexceptions -ffunction-sections -funwind-tables -fstack-protector -march=armv7-a -mfpu=vfpv3-d16 -mfloat-abi=softfp -mthumb -fomit-frame-pointer -fno-strict-aliasing -DANDROID -Wformat -Werror=format-security" \
-  LDFLAGS="-march=armv7-a -L${CXXSTL_LIB} -L${OUTPUT_DIR}/lib" \
+  CFLAGS="${CFLAGS_OT}" \
+  CXXFLAGS="${CXXFLAGS_OT}" \
+  LDFLAGS="${LDFLAGS_OT} -L${CXXSTL_LIB} -L${OUTPUT_DIR}/lib" \
   LIBS="-l${ANDROID_STL_LIB}"
 make "${OT_MAKE_OPTS}"
 make install
