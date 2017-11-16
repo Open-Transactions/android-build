@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export OT_NDK_TYPE="android-ndk-r16"
 export ANDROID_NDK_ROOT="/usr/local/share/ndk/${OT_NDK_TYPE}"
 export ANDROID_LEVEL_OT="21"
 export OPENSSL_ANDROID_API_OT="android-${ANDROID_LEVEL_OT}"
@@ -11,7 +12,6 @@ export TOOLCHAIN_SYSROOT_LIB_DIR_OT="${TOOLCHAIN_USR_OT}"/lib
 export SRC_DIR="${HOME}/src/${OT_NDK_TYPE}/${OT_TARGET_ARCH}"
 export BUILD_DIR="${HOME}/build/${OT_NDK_TYPE}/${OT_TARGET_ARCH}"
 export OT_MAKE_OPTS="-j8"
-export OT_MAKE_OPTS_FOR_BUGGY_COMPILERS="-j8"
 export FINAL_OUTPUT_DIR_OT="${HOME}/install/"
 export FINAL_OUTPUT_DIR_LIB_OT="${FINAL_OUTPUT_DIR_OT}/android_libs/${ABI}"
 export FINAL_OUTPUT_DIR_JAVA_OPENTXS_PROTO="${FINAL_OUTPUT_DIR_OT}/java/org/opentransactions/proto"

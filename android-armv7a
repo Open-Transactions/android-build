@@ -1,7 +1,6 @@
 #!/bin/bash
 
 export OT_TARGET_ARCH="armv7a"
-export OT_NDK_TYPE="android-ndk-r15c"
 export ANDROID_EABI_OT="arm-linux-androideabi"
 export ANDROID_GCC_VERSION_OT="4.9"
 export ABI=armeabi-v7a

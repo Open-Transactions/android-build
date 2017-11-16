@@ -10,4 +10,19 @@ fi
 
 mkdir -p "${HOME}/toolchain"
 cd "${ANDROID_NDK_ROOT}"
-build/tools/make_standalone_toolchain.py --api "${ANDROID_LEVEL_OT}" --stl "${ANDROID_STL}" --arch "${ANDROID_ARCH_NDK_OT}" --install-dir "${ANDROID_STANDALONE_TOOLCHAIN}" --unified-headers
+build/tools/make_standalone_toolchain.py --api "${ANDROID_LEVEL_OT}" --stl "${ANDROID_STL}" --arch "${ANDROID_ARCH_NDK_OT}" --install-dir "${ANDROID_STANDALONE_TOOLCHAIN}"
+
+# Fix bugs in standard library headers
+
+sed -i "s~\(#include <__locale>\)~\1\\n#include <support/xlocale/__strtonum_fallback.h>~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/locale
+
+sed -i "s~^using ::signbit;~//using ::signbit;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
+sed -i "s~^using ::fpclassify;~//using ::fpclassify;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
+sed -i "s~^using ::isfinite;~//using ::isfinite;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
+sed -i "s~^using ::isnormal;~//using ::isnormal;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
+sed -i "s~^using ::isgreater;~//using ::isgreater;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
+sed -i "s~^using ::isgreaterequal;~//using ::isgreaterequal;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
+sed -i "s~^using ::isless;~//using ::isless;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
+sed -i "s~^using ::islessequal;~//using ::islessequal;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
+sed -i "s~^using ::islessgreater;~//using ::islessgreater;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath
+sed -i "s~^using ::isunordered;~//using ::isunordered;~" "${ANDROID_STANDALONE_TOOLCHAIN}"/include/c++/4.9.x/cmath

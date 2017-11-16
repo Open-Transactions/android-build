@@ -16,17 +16,7 @@ git_clone_source "${OPENTXS_PROTO_VERSION_OT}" "${GIT_OPENTXS_PROTO_URL}" "${LOC
 
 sed -i "s/list(APPEND OPENTXS_SYSTEM_LIBRARIES rt)/#list(APPEND OPENTXS_SYSTEM_LIBRARIES rt)/" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
 
-# A hack. We're overwriting the standalone toolchain's protoc
-# with the system protoc (so it can run during cross-compile.)
-# It will be better to just find anyplace we actually use protoc
-# and give it the path there, rather than overwriting the standalone
-# toolchain's copy. It may not be so simple however, and we'll figure
-# it out later. This works for now.
-cp "${PROTOC_LOCATION_BUILD_MACHINE_OT}" "${TOOLCHAIN_USR_OT}/bin/protoc"
-
 cd "${LOCAL_BUILD_DIR}"
-
-# -DCMAKE_SYSTEM_PREFIX_PATH="${TOOLCHAIN_SYSROOT_OT}" \
 
 cmake \
  -DCMAKE_C_COMPILER="${CMAKE_C_COMPILER}" \

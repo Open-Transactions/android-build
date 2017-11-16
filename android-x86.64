@@ -1,7 +1,6 @@
 #!/bin/bash
 
 export OT_TARGET_ARCH="x86_64"
-export OT_NDK_TYPE="android-ndk-r15c"
 export ANDROID_EABI_OT="x86_64-linux-android"
 export ANDROID_GCC_VERSION_OT="4.9"
 export ABI=x86_64
@@ -18,8 +17,6 @@ export LDFLAGS_X86=""
 source ~/bin/common-variables
 source ~/bin/paths_android
 source ~/bin/versions
-
-export CXXSTL_LIB="${ANDROID_STANDALONE_TOOLCHAIN}/${ANDROID_EABI_OT}/lib"
 
 export CFLAGS_OT="${CFLAGS_X86} ${CFLAGS_COMMON}"
 export CXXFLAGS_OT="${CXXFLAGS_X86} ${CXXFLAGS_COMMON}"

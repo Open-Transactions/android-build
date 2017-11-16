@@ -1,7 +1,6 @@
 #!/bin/bash
 
 export OT_TARGET_ARCH="x86"
-export OT_NDK_TYPE="android-ndk-r15c"
 export ANDROID_EABI_OT="i686-linux-android"
 export ANDROID_GCC_VERSION_OT="4.9"
 export ABI=x86
@@ -17,6 +16,7 @@ export ANDROID_ARCH_OT=arch-x86
 export CFLAGS_X86="-mtune=atom -mstackrealign -msse3 -mfpmath=sse -m32"
 export CXXFLAGS_X86="-mtune=atom -mstackrealign -msse3 -mfpmath=sse -m32"
 export LDFLAGS_X86=""
+
 source ~/bin/common-variables
 source ~/bin/paths_android
 source ~/bin/versions

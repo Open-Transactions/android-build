@@ -37,3 +37,11 @@ make "${OT_MAKE_OPTS}"
 make install
 cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY}"
 rpl -R -e ".so.9" "_9.so" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY}"
+
+# A hack. We're overwriting the standalone toolchain's protoc
+# with the system protoc (so it can run during cross-compile.)
+# It will be better to just find anyplace we actually use protoc
+# and give it the path there, rather than overwriting the standalone
+# toolchain's copy. It may not be so simple however, and we'll figure
+# it out later. This works for now.
+cp "${PROTOC_LOCATION_BUILD_MACHINE_OT}" "${TOOLCHAIN_USR_OT}/bin/protoc"
