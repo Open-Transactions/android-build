@@ -1,0 +1,59 @@
+#!/bin/bash
+
+clean_directories() {
+	local LOCAL_BUILD_DIR="${1}"
+	local LOCAL_SOURCE_DIR="${2}"
+	local ARCHIVE_FILE="${3}"
+
+	if [ -e "${LOCAL_BUILD_DIR}" ] ; then
+        	cd "${LOCAL_BUILD_DIR}" &&
+        	make uninstall
+       		rm -rf "${LOCAL_BUILD_DIR}"
+	fi
+
+	if [ -e "${LOCAL_SOURCE_DIR}" ] ; then
+	        rm -rf "${LOCAL_SOURCE_DIR}"
+	fi
+
+	if [ -e "${ARCHIVE_FILE}" ] ; then
+	        rm -rf "${ARCHIVE_FILE}"
+	fi
+}
+
+create_directories() {
+	local LOCAL_BUILD_DIR="${1}"
+	local LOCAL_SOURCE_DIR="${2}"
+	local FINAL_OUTPUT_DIR_LIB_OT="${3}"
+
+	if [ -n "${LOCAL_SOURCE_DIR}" ] ; then
+		mkdir -p "${LOCAL_SOURCE_DIR}"
+	fi
+
+	if [ -n "${LOCAL_BUILD_DIR}" ] ; then
+		mkdir -p "${LOCAL_BUILD_DIR}"
+	fi
+
+	if [ -n "${FINAL_OUTPUT_DIR_LIB_OT}" ] ; then
+		mkdir -p "${FINAL_OUTPUT_DIR_LIB_OT}"
+	fi
+}
+
+wget_source() {
+	local ARCHIVE_FILE="${1}"
+	local WGET_URL="${2}"
+	local LOCAL_SOURCE_DIR="${3}"
+
+	wget --output-document="${ARCHIVE_FILE}" "${WGET_URL}"
+	tar -xzvf "${ARCHIVE_FILE}" -C "${LOCAL_SOURCE_DIR}" --strip-components=1
+}
+
+git_clone_source() {
+	local VERSION="${1}"
+	local GIT_URL="${2}"
+	local LOCAL_SOURCE_DIR="${3}"
+
+	cd "${HOME}"
+	git clone --branch "${VERSION}" "${GIT_URL}" "${LOCAL_SOURCE_DIR}"
+	git -C "${LOCAL_SOURCE_DIR}" submodule init
+	git -C "${LOCAL_SOURCE_DIR}" submodule update
+}

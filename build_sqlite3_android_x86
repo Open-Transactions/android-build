@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source "${HOME}"/bin/functions
 source "${HOME}"/bin/android-x86
 
 export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_SQLITE_OT}"

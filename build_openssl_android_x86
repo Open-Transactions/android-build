@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source "${HOME}"/bin/functions
 source "${HOME}"/bin/android-x86
 
 export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_OPENSSL_OT}"

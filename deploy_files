@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source "${HOME}"/bin/functions
 source "${HOME}"/bin/android-armv7a
 
 OT_DIR="${SRC_DIR}/${FOLDER_OPENTXS_OT}"
