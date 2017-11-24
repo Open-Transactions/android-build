@@ -28,9 +28,6 @@ cd "${HOME}/bin"
 # depends on sodium
 ./build_zeromq_android_x86
 
-# depends on zeromq
-./build_czmq_android_x86
-
 #########################################################################
 
 ./build_opentxs-proto_android_x86
