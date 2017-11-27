@@ -7,7 +7,7 @@ These scripts build Open-Transactions and all its dependencies using the Android
 These scripts must be installed as ~/bin for the user which will perform the build.
 
     rm -r ~/bin
-    git clone ssh://git@git.cjdns.stashcrypto.net/ot/android-build ~/bin
+    git clone https://github.com/Open-Transactions/android-build.git ~/bin
 
 ### Dependencies
 
@@ -16,5 +16,3 @@ These scripts must be installed as ~/bin for the user which will perform the bui
 * The build system must have rpl installed
 * The build system must have a version of protoc installed that matches the one being compiled
 * The build system must have makedepend installed
-* The deploy_files script assumes that Stash Wallet is cloned to ~/stash-wallet
-  * git clone ssh://git@git.cjdns.stashcrypto.net/stash/stash-wallet ~/stash-wallet
