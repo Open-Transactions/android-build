@@ -10,9 +10,6 @@ export ARCH_HOST_DUET_OT="i686-linux"
 export ANDROID_ARCH_NDK_OT="x86"
 export ANDROID_ARCH_OT=arch-x86
 
-#export CFLAGS_X86="-march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32"
-#export CXXFLAGS_X86="-march=i686 -mtune=intel -mssse3 -mfpmath=sse -m32"
-#export LDFLAGS_X86="-march=i686 -m32"
 export CFLAGS_X86="-mtune=atom -mstackrealign -msse3 -mfpmath=sse -m32"
 export CXXFLAGS_X86="-mtune=atom -mstackrealign -msse3 -mfpmath=sse -m32"
 export LDFLAGS_X86=""

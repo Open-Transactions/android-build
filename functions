@@ -57,3 +57,15 @@ git_clone_source() {
 	git -C "${LOCAL_SOURCE_DIR}" submodule init
 	git -C "${LOCAL_SOURCE_DIR}" submodule update
 }
+
+check_arch() {
+	case "${1}" in
+		"arm")
+			export OT_ARCH="armv7a";;
+		"x86")
+			export OT_ARCH="x86";;
+		*)
+			echo "Unknown architecture"
+			exit 1;;
+	esac
+}

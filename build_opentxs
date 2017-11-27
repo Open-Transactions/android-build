@@ -1,7 +1,8 @@
 #!/bin/bash
 
 source "${HOME}"/bin/functions
-source "${HOME}"/bin/android-armv7a
+check_arch "${1}"
+source "${HOME}"/bin/android-"${OT_ARCH}"
 
 export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_OPENTXS_OT}"
 export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_OPENTXS_OT}"
@@ -86,11 +87,11 @@ cmake \
 
 sed -i "s/soname, /soname,libJOpentxs.so /" "${LOCAL_BUILD_DIR}"/wrappers/java/CMakeFiles/JOpentxs.dir/link.txt
 
-make "${OT_MAKE_OPTS}"
-make install
+make CXXFLAGS="${CXXFLAGS_OT}" "${OT_MAKE_OPTS}"
+make LDFLAGS="${LDFLAGS_OT}" install
 
 mkdir -p "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT}"
-
+cp "${LOCAL_BUILD_DIR}/wrappers/java/otx_java"/*.java "${FINAL_OUTPUT_DIR_JAVA_OPENTXS_OT}/"
 cp "${CXXSTL_LIB}/lib${ANDROID_STL_LIB}.so" "${FINAL_OUTPUT_DIR_LIB_OT}"
 cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_MAIN}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY_MAIN}"
 cp "${TOOLCHAIN_SYSROOT_LIB_DIR_OT}/${TOOLCHAIN_LIBRARY_SWIG}" "${FINAL_OUTPUT_DIR_LIB_OT}/${OUTPUT_LIBRARY_SWIG}"

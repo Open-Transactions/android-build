@@ -1,7 +1,8 @@
 #!/bin/bash
 
 source "${HOME}"/bin/functions
-source "${HOME}"/bin/android-x86
+check_arch "${1}"
+source "${HOME}"/bin/android-"${OT_ARCH}"
 
 export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_OPENSSL_OT}"
 export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_OPENSSL_OT}"
@@ -22,15 +23,14 @@ export ANDROID_TOOLCHAIN="${ANDROID_STANDALONE_TOOLCHAIN}/bin"
 export OPENSSLDIR="${LOCAL_BUILD_DIR}"
 export OPENSSL_LIBDIR_OT="${OPENSSLDIR}"/lib
 
-echo "${CXXSTL_LIB}"
-case $_ANDROID_ARCH in
+case "${_ANDROID_ARCH}" in
 	arch-arm)
       ANDROID_TOOLS="arm-linux-androideabi-clang arm-linux-androideabi-ranlib arm-linux-androideabi-ld"
 	  ;;
 	arch-x86)
       ANDROID_TOOLS="i686-linux-android-clang i686-linux-android-ranlib i686-linux-android-ld"
 	  ;;
-	arch-x86_64)
+       arch-x86_64)
       ANDROID_TOOLS="x86_64-linux-android-clang x86_64-linux-android-ranlib x86_64-linux-android-ld"
           ;;
 	*)
@@ -53,12 +53,13 @@ if [ "${_ANDROID_ARCH}" == "arch-x86" ]; then
 	export ARCH=x86
 	export CROSS_COMPILE="i686-linux-android-"
 fi
+
 if ["${_ANDROID_ARCH}" == "arch-x86_64" ]; then
-	export MACHINE=x86-64
-	export RELEASE=2.6.37
-	export SYSTEM=android
-	export ARCH=x86_64
-	export CROSS_COMPILE="x86_64-linux-android-"
+       export MACHINE=x86-64
+       export RELEASE=2.6.37
+       export SYSTEM=android
+       export ARCH=x86_64
+       export CROSS_COMPILE="x86_64-linux-android-"
 fi
 
 # For the Android toolchain
@@ -83,6 +84,7 @@ if [ ! -z "$VERBOSE" ] && [ "$VERBOSE" != "0" ]; then
   echo "CROSS_COMPILE: $CROSS_COMPILE"
   echo "ANDROID_DEV: $ANDROID_DEV"
 fi
+
 ################################################################################################################################################################################################################################################################################
 clean_directories "${LOCAL_BUILD_DIR}" "${LOCAL_SOURCE_DIR}" "${ARCHIVE_FILE}"
 
@@ -93,13 +95,11 @@ create_directories "${LOCAL_SOURCE_DIR}" "${LOCAL_BUILD_DIR}" "${FINAL_OUTPUT_DI
 wget_source "${ARCHIVE_FILE}" "${WGET_OPENSSL_URL}" "${LOCAL_SOURCE_DIR}"
 
 sed -i "s/-mandroid //" "${LOCAL_SOURCE_DIR}"/Configure
+
 mkdir -p "${OPENSSL_LIBDIR_OT}"
 cd "${LOCAL_SOURCE_DIR}"
-
 ./config shared -no-asm -no-ssl3 -no-comp -no-hw -no-engine --openssldir="${OPENSSLDIR}"
-
 make depend
-
 make "${OT_MAKE_OPTS}" CC="${CC}" CFLAG="${CFLAGS_OT}" RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib all
 make CC="${CC}" CFLAG="${CFLAGS_OT}" RANLIB="${ANDROID_TOOLCHAIN}"/"${ANDROID_EABI_OT}"-ranlib install
 

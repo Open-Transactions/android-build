@@ -1,7 +1,8 @@
 #!/bin/bash
 
 source "${HOME}"/bin/functions
-source "${HOME}"/bin/android-armv7a
+check_arch "${1}"
+source "${HOME}"/bin/android-"${OT_ARCH}"
 
 export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_SODIUM_OT}"
 export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_SODIUM_OT}"

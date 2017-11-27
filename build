@@ -1,35 +1,35 @@
 #!/bin/bash
 
 source "${HOME}"/bin/functions
-source "${HOME}"/bin/android-armv7a
+check_arch "${1}"
+source "${HOME}"/bin/android-"${OT_ARCH}"
 
 set -e
 
 rm -rf "${SRC_DIR}" "${BUILD_DIR}" "${ANDROID_STANDALONE_TOOLCHAIN}" "${FINAL_OUTPUT_DIR_LIB_OT}"
-
 cd "${HOME}/bin"
 
-./create-toolchain-android-arm
+./create-toolchain "${1}"
 
 # no extra dependencies
-./build_secp256k1_android_armv7a
+./build_secp256k1 "${1}"
 
 # no extra dependencies
-./build_protobuf_android_armv7a
+./build_protobuf "${1}"
 
 # no extra dependencies
-./build_openssl_android_armv7a
+./build_openssl "${1}"
 
 # no extra dependencies
-./build_sqlite3_android_armv7a
+./build_sqlite3 "${1}"
 
 # no extra dependencies
-./build_sodium_android_armv7a
+./build_sodium "${1}"
 
 # depends on sodium
-./build_zeromq_android_armv7a
+./build_zeromq "${1}"
 
 #########################################################################
 
-./build_opentxs-proto_android_armv7a
-./build_opentxs_android_armv7a
+./build_opentxs-proto "${1}"
+./build_opentxs "${1}"
