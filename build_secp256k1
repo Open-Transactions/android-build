@@ -42,6 +42,8 @@ cd "${LOCAL_BUILD_DIR}"
  --disable-jni \
  --with-bignum=no \
  --with-asm=no \
+ --disable-tests \
+--disable-benchmark \
   CPPFLAGS="-I${OUTPUT_DIR}/include" \
   CFLAGS="${CFLAGS_OT}" \
   CXXFLAGS="${CXXFLAGS_OT}" \
