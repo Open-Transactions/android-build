@@ -4,7 +4,7 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
-export OT_NDK_TYPE="android-ndk-r16"
+export OT_NDK_TYPE="android-ndk-r16b"
 export ANDROID_NDK_ROOT="/usr/local/share/ndk/${OT_NDK_TYPE}"
 export ANDROID_LEVEL_OT="21"
 export OPENSSL_ANDROID_API_OT="android-${ANDROID_LEVEL_OT}"
