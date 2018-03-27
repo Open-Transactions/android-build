@@ -26,8 +26,7 @@ sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_D
 sed -i "s~#include \"opentxs/core/util/android_string.hpp\"~~" "${LOCAL_SOURCE_DIR}"/include/opentxs/client/commands/CmdBase.hpp
 sed -i "s~\(#include <memory>.*\)~#include <ctime>\n\1~" "${LOCAL_SOURCE_DIR}"/include/opentxs/core/util/Common.hpp
 sed -i "s~return time(nullptr)~return std::time(nullptr)~" "${LOCAL_SOURCE_DIR}"/include/opentxs/core/util/Common.hpp
-sed -i "s/-Wuseless-cast,//" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
-sed -i "s/-Wno-useless-cast,//" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
+sed -i "s/-Wno-useless-cast//" "${LOCAL_SOURCE_DIR}"/CMakeLists.txt
 
 cd "${LOCAL_BUILD_DIR}"
 
