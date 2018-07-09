@@ -10,6 +10,7 @@ export ANDROID_GCC_VERSION_OT="4.9"
 export ABI=armeabi-v7a
 export ANDROID_STL=libc++
 export ANDROID_STL_LIB="c++_shared"
+export ANDROID_STL_TOOLCHAIN_LIB="${CXXSTL_LIB}/armv7-a/lib${ANDROID_STL_LIB}.so"
 export ARCH_HOST_DUET_OT="arm-linux"
 export ANDROID_ARCH_NDK_OT="arm"
 export ANDROID_ARCH_OT=arch-arm
