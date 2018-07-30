@@ -6,6 +6,7 @@
 
 export OT_TARGET_ARCH="armv7a"
 export ANDROID_EABI_OT="arm-linux-androideabi"
+export ANDROID_EABI_OT_OVERRIDE="armv7-none-linux-androideabi"
 export ANDROID_GCC_VERSION_OT="4.9"
 export ABI=armeabi-v7a
 export ANDROID_STL=libc++

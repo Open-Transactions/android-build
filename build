@@ -16,24 +16,8 @@ cd "${HOME}/bin"
 ./create-toolchain "${1}"
 
 # no extra dependencies
-./build_secp256k1 "${1}"
-
-# no extra dependencies
-./build_protobuf "${1}"
-
-# no extra dependencies
 ./build_openssl "${1}"
-
-# no extra dependencies
-./build_sqlite3 "${1}"
-
-# no extra dependencies
-./build_sodium "${1}"
-
-# depends on sodium
-./build_zeromq "${1}"
 
 #########################################################################
 
-./build_opentxs-proto "${1}"
 ./build_opentxs "${1}"

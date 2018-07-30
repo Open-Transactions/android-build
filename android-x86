@@ -6,6 +6,7 @@
 
 export OT_TARGET_ARCH="x86"
 export ANDROID_EABI_OT="i686-linux-android"
+export ANDROID_EABI_OT_OVERRIDE="i686-none-linux-androideabi"
 export ANDROID_GCC_VERSION_OT="4.9"
 export ABI=x86
 export ANDROID_STL=libc++
