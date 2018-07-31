@@ -1,0 +1,23 @@
+#!/bin/bash
+
+mkdir -p ~/git
+
+update() {
+	if [ ! -d ~/git/"${1}" ] ; then
+		git clone --mirror "${2}" ~/git/"${1}"
+	fi
+
+	cd ~/git/"${1}" && git fetch --all --tags
+}
+
+update opentxs git://github.com/Stash-Crypto/opentxs.git
+update opentxs-proto git://github.com/Stash-Crypto/opentxs-proto.git
+update lucre git://github.com/Open-Transactions/lucre.git
+update simpleini git://github.com/brofield/simpleini.git
+update chai git://github.com/ChaiScript/ChaiScript.git
+update trezor git://github.com/trezor/trezor-crypto.git
+update protobuf git://github.com/google/protobuf.git
+update libsodium git://github.com/jedisct1/libsodium.git
+update secp256k1 git://github.com/libbitcoin/secp256k1.git
+update zmq git://github.com/zeromq/libzmq.git
+update benchmark git://github.com/google/benchmark.git

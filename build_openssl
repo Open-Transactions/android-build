@@ -58,7 +58,7 @@ if [ "${_ANDROID_ARCH}" == "arch-x86" ]; then
 	export CROSS_COMPILE="i686-linux-android-"
 fi
 
-if ["${_ANDROID_ARCH}" == "arch-x86_64" ]; then
+if [ "${_ANDROID_ARCH}" == "arch-x86_64" ]; then
        export MACHINE=x86-64
        export RELEASE=2.6.37
        export SYSTEM=android

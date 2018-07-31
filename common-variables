@@ -15,7 +15,6 @@ export TOOLCHAIN_SYSROOT_INCLUDE_DIR_OT="${TOOLCHAIN_USR_OT}"/include
 export TOOLCHAIN_SYSROOT_LIB_DIR_OT="${TOOLCHAIN_USR_OT}"/lib
 export SRC_DIR="${HOME}/src/${OT_NDK_TYPE}/${OT_TARGET_ARCH}"
 export BUILD_DIR="${HOME}/build/${OT_NDK_TYPE}/${OT_TARGET_ARCH}"
-export OT_MAKE_OPTS="-j8"
 export FINAL_OUTPUT_DIR_OT="${HOME}/install/"
 export FINAL_OUTPUT_DIR_LIB_OT="${FINAL_OUTPUT_DIR_OT}/android_libs/${ABI}"
 export FINAL_OUTPUT_DIR_JAVA_OPENTXS_PROTO="${FINAL_OUTPUT_DIR_OT}/java/org/opentransactions/proto"

@@ -8,6 +8,8 @@ source "${HOME}"/bin/functions
 check_arch "${1}"
 source "${HOME}"/bin/android-"${OT_ARCH}"
 
+"${HOME}"/bin/update_git
+
 export LOCAL_SOURCE_DIR="${SRC_DIR}/${FOLDER_OPENTXS_PROTO_OT}"
 export LOCAL_BUILD_DIR="${BUILD_DIR}/${FOLDER_OPENTXS_PROTO_OT}"
 export TOOLCHAIN_LIBRARY="libopentxs-proto.so"
@@ -25,6 +27,7 @@ sed -i "s/list(APPEND OPENTXS_SYSTEM_LIBRARIES rt)/#list(APPEND OPENTXS_SYSTEM_L
 cd "${LOCAL_BUILD_DIR}"
 
 cmake \
+ -DOT_SANITIZE=OFF \
  -DCMAKE_C_COMPILER="${CMAKE_C_COMPILER}" \
  -DCMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER}" \
  -DCMAKE_CXX_FLAGS="" \
@@ -39,6 +42,7 @@ cmake \
  "${LOCAL_SOURCE_DIR}"
 
 cmake \
+ -DOT_SANITIZE=OFF \
  -DCMAKE_C_COMPILER="${CMAKE_C_COMPILER}" \
  -DCMAKE_CXX_COMPILER="${CMAKE_CXX_COMPILER}" \
  -DCMAKE_CXX_FLAGS="" \
