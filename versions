@@ -5,7 +5,7 @@
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 export OPENSSL_VERSION_OT="1.0.2o"
-export OPENTXS_VERSION_OT="experimental"
+export OPENTXS_VERSION_OT="android"
 
 export FOLDER_OPENSSL_OT="openssl"
 export WGET_OPENSSL_URL="http://www.openssl.org/source/${FOLDER_OPENSSL_OT}-${OPENSSL_VERSION_OT}.tar.gz"
